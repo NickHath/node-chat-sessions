@@ -5,6 +5,7 @@ module.exports = {
   create: ( req, res ) => {
     const { text, time } = req.body;
     messages.push({ id, text, time });
+    req.session.user.messages.push({ id, text, time });
     id++;
     res.status(200).send( messages );
   },

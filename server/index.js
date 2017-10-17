@@ -39,6 +39,7 @@ app.post( messagesBaseUrl, mc.create );
 app.get( messagesBaseUrl, mc.read );
 app.put( `${messagesBaseUrl}`, mc.update );
 app.delete( `${messagesBaseUrl}`, mc.delete );
+app.get( `${messagesBaseUrl}/history`, mc.history);
 
 const port = 3000;
 app.listen( port, () => { console.log(`Server listening on port ${port}.`); } );

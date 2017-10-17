@@ -4,6 +4,7 @@ const mc = require( `${__dirname}/controllers/messages_controller` );
 const session = require('express-session');
 
 const createInitialSession = require(`${__dirname}/middlewares/session.js`);
+const filter = require('${__dirname}/middlewares/filter.js')
 
 const app = express();
 
@@ -19,6 +20,13 @@ app.use( session({
   }) )
 
 app.use( createInitialSession );
+app.use ( (req, res, next) => {
+  if (req.method === 'PUT' || req.method === 'POST') {
+    filter(req, res, next);
+  } else {
+    next();
+  }
+} )
 
 const messagesBaseUrl = "/api/messages";
 app.post( messagesBaseUrl, mc.create );

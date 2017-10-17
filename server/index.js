@@ -4,12 +4,14 @@ const mc = require( `${__dirname}/controllers/messages_controller` );
 const session = require('express-session');
 
 const createInitialSession = require(`${__dirname}/middlewares/session.js`);
-const filter = require('${__dirname}/middlewares/filter.js')
+const filter = require(`${__dirname}/middlewares/filter.js`)
 
 const app = express();
 
 app.use( bodyParser.json() );
 app.use( express.static( `${__dirname}/../public/build` ) );
+
+// set up session
 app.use( session({
   secret: 'afhd#f;a$%^2355245635123216890&*(dfsnf@@@9999!dsjkfha#!$#213214343@$!eiourhaewfs',
   resave: false,
@@ -19,7 +21,11 @@ app.use( session({
   }
   }) )
 
+
+// initialize user prop on req.session, contains a messages array
 app.use( createInitialSession );
+
+// filter curse words
 app.use ( (req, res, next) => {
   if (req.method === 'PUT' || req.method === 'POST') {
     filter(req, res, next);
